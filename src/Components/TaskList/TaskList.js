@@ -4,6 +4,13 @@ import TaskItem from './TaskItem';
 
 class TaskList extends Component {
     render() {
+        let { tasksData } = this.props;
+        let elmTaskItemms = tasksData.map((task, index) => {
+            return <TaskItem
+                task={task}
+                key={index}
+            />;
+        });
         return (
             <div className="col-md-9 px-0">
                 <div className="container-fluid px-0">
@@ -34,8 +41,7 @@ class TaskList extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            <TaskItem />
-                            <TaskItem />
+                            {elmTaskItemms}
                         </tbody>
                     </table>
                 </div>

@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
+
 import Controls from './Components/Controls/Controls';
 import TaskList from './Components/TaskList/TaskList';
 import Modal from './Components/Modal/Modal';
+
+import tasksData from './data/Data';
 
 class App extends Component {
   render() {
@@ -14,7 +17,7 @@ class App extends Component {
             {/* PANEL */}
             <Controls />
             {/* DISPLAY */}
-            <TaskList />
+            <TaskList tasksData={tasksData} />
           </div>
         </div>
         {/* The Modal */}
