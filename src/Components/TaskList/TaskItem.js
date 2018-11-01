@@ -31,7 +31,7 @@ class TaskItem extends Component {
                     {elmTaskItemMembers}
                 </td>
                 <td className="text-center d-flex align-items-center justify-content-center">
-                    <button type="button" className="btn btn-outline-primary mt-2">Sửa</button>
+                    <button type="button" className="btn btn-outline-primary mt-2" data-toggle="modal" data-target="#modalTask">Sửa</button>
                     <div className="form-group ml-2">
                         <label></label>
                         <select className="form-control" name="" id="">
