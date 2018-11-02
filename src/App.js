@@ -8,6 +8,17 @@ import Modal from './Components/Modal/Modal';
 import tasksData from './data/Data';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      task: {}
+    }
+  };
+
+  getTask = (task) => {
+    this.setState({ task });
+  }
+
   render() {
     return (
       <div className="App">
@@ -17,11 +28,11 @@ class App extends Component {
             {/* PANEL */}
             <Controls />
             {/* DISPLAY */}
-            <TaskList tasksData={tasksData} />
+            <TaskList tasksData={tasksData} getTask={this.getTask} />
           </div>
         </div>
         {/* The Modal */}
-        <Modal />
+        <Modal task={this.state.task} />
       </div>
     );
   }

@@ -1,7 +1,38 @@
 import React, { Component } from 'react';
 
 class Modal extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            task: this.props.task
+        }
+
+        this.handleChange = this.handleChange.bind(this);
+    };
+
+    static getDerivedStateFromProps(props, state) {
+        // Any time the current task changes,
+        // Reset any parts of state that are tied to that task.
+        // In this simple example, that's just the email.
+        if (props.task !== state.task) {
+          return {
+            task: props.task
+          };
+        }
+        return null;
+      }
+
+    handleChange( event ) {
+        this.setState({ 
+            task: {
+                description: event.target.value
+            }
+        });
+    }
+
     render() {
+        let { task } = this.state;
+        console.log(task);
         return (
             <div className="modal fade" id="modalTask">
                 <div className="modal-dialog modal-lg">
@@ -19,7 +50,7 @@ class Modal extends Component {
                             </div>
                             <div className="form-group">
                                 <label htmlFor="description">Mô tả:</label>
-                                <textarea className="form-control" rows={2} id="description" defaultValue={""} />
+                                <textarea className="form-control" rows={2} id="description" value={task.description} onChange={this.handleChange} />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="priority">Độ ưu tiên:</label>

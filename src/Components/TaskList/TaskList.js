@@ -4,11 +4,12 @@ import TaskItem from './TaskItem';
 
 class TaskList extends Component {
     render() {
-        let { tasksData } = this.props;
+        let { tasksData, getTask } = this.props;
         let elmTaskItemms = tasksData.map((task, index) => {
             return <TaskItem
                 task={task}
                 key={index}
+                getTask={getTask}
             />;
         });
         return (

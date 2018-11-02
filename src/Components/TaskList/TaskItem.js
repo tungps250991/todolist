@@ -5,6 +5,10 @@ import TaskItemPriorities from './TaskItemPriorities';
 import TaskItemMembers from './TaskItemMembers';
 
 class TaskItem extends Component {
+    eventModify = () => {
+        this.props.getTask(this.props.task);
+    };
+
     render() {
         let { task } = this.props;
         let elmTaskItemLabels = task.labelArr.map((label, index) => {
@@ -31,7 +35,7 @@ class TaskItem extends Component {
                     {elmTaskItemMembers}
                 </td>
                 <td className="text-center d-flex align-items-center justify-content-center">
-                    <button type="button" className="btn btn-outline-primary mt-2" data-toggle="modal" data-target="#modalTask">Sửa</button>
+                    <button type="button" className="btn btn-outline-primary mt-2" data-toggle="modal" data-target="#modalTask" onClick={this.eventModify}>Sửa</button>
                     <div className="form-group ml-2">
                         <label></label>
                         <select className="form-control" name="" id="">
