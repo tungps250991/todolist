@@ -4,26 +4,22 @@ class Modal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            task: this.props.task
+            task: {}
         }
 
         this.handleChange = this.handleChange.bind(this);
     };
 
-    static getDerivedStateFromProps(props, state) {
-        // Any time the current task changes,
-        // Reset any parts of state that are tied to that task.
-        // In this simple example, that's just the email.
-        if (props.task !== state.task) {
-          return {
-            task: props.task
-          };
+    componentDidUpdate(prevProps) {
+        if (this.props.task !== prevProps.task) {
+            this.setState({
+                task: this.props.task
+            });
         }
-        return null;
-      }
+    }
 
-    handleChange( event ) {
-        this.setState({ 
+    handleChange(event) {
+        this.setState({
             task: {
                 description: event.target.value
             }
