@@ -22,9 +22,7 @@ class Modal extends Component {
     // }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps && nextProps.task && !nextProps.isAddNewTask) {
-            this.setState(nextProps.task);
-        } else {
+        if (nextProps && nextProps.isAddNewTask) {
             this.setState({
                 id: "",
                 name: "",
@@ -35,10 +33,13 @@ class Modal extends Component {
                 status: 1,
             });
         }
+        if (nextProps && nextProps.task && !nextProps.isAddNewTask) {
+            this.setState(nextProps.task);
+        }
     }
 
     onSubmit = (event) => {
-        event.preventDefault();
+        // event.preventDefault();
         this.props.addNewTask(this.state);
         this.props.editTask(this.state);
     }
