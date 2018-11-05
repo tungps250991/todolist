@@ -4,12 +4,13 @@ import TaskItem from './TaskItem';
 
 class TaskList extends Component {
     render() {
-        let { tasksData, getTask } = this.props;
+        let { tasksData, openEditTask } = this.props;
         let elmTaskItemms = tasksData.map((task, index) => {
             return <TaskItem
                 task={task}
-                key={index}
-                getTask={getTask}
+                key={index} // Cannot use key as prop
+                openEditTask={openEditTask}
+                index={index}
             />;
         });
         return (

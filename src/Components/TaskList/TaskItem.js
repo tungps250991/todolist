@@ -3,14 +3,16 @@ import React, { Component } from 'react';
 import TaskItemLabels from './TaskItemLabels';
 import TaskItemPriorities from './TaskItemPriorities';
 import TaskItemMembers from './TaskItemMembers';
+import TaskItemStatusLabel from './TaskItemStatusLabel';
+import TaskItemStatusSelectBox from './TaskItemStatusSelectBox';
 
 class TaskItem extends Component {
     eventModify = () => {
-        this.props.getTask(this.props.task);
+        this.props.openEditTask(this.props.task);
     };
 
     render() {
-        let { task } = this.props;
+        let { task, index } = this.props;
         let elmTaskItemLabels = task.labelArr.map((label, index) => {
             return <TaskItemLabels
                 label={label}
@@ -23,9 +25,11 @@ class TaskItem extends Component {
                 key={index}
             />;
         });
+        const taskIndex = index + 1;
+
         return (
             <tr>
-                <td className="text-center">1</td>
+                <td className="text-center">{taskIndex}</td>
                 <td className="text-center">{task.name}</td>
                 <td className="text-center">
                     {elmTaskItemLabels}
@@ -36,19 +40,10 @@ class TaskItem extends Component {
                 </td>
                 <td className="text-center d-flex align-items-center justify-content-center">
                     <button type="button" className="btn btn-outline-primary mt-2" data-toggle="modal" data-target="#modalTask" onClick={this.eventModify}>Sửa</button>
-                    <div className="form-group ml-2">
-                        <label></label>
-                        <select className="form-control" name="" id="">
-                            <option>Chọn trạng thái</option>
-                            <option>Chưa bắt đầu</option>
-                            <option>Đang tiến hành</option>
-                            <option>Đã hoàn thành</option>
-                            <option>Xoá</option>
-                        </select>
-                    </div>
+                    <TaskItemStatusSelectBox status={task.status} />
                 </td>
                 <td className="text-center">
-                    <i className="fa fa-check-square-o mr-2" />
+                    <TaskItemStatusLabel status={task.status} />
                 </td>
             </tr>
         );

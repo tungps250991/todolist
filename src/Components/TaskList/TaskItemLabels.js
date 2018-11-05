@@ -27,12 +27,12 @@ class TaskItemLabels extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            color: this.colorArr[props.label]
+            label: props.label
         };
     }
     
     render() {
-        let color = this.state.color;
+        let color = this.colorArr[this.state.label];
         return (
             <i className="fa fa-circle" style={{ color: color }} />
         );

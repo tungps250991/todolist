@@ -1,111 +1,122 @@
 import React, { Component } from 'react';
+import { Checkbox, CheckboxGroup } from 'react-checkbox-group';
 
 class Modal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            task: {}
+            id: "",
+            name: "",
+            description: "",
+            priority: -1,
+            memberIDArr: [],
+            labelArr: [],
+            status: 1,
         }
-
-        this.handleChange = this.handleChange.bind(this);
     };
 
-    componentDidUpdate(prevProps) {
-        if (this.props.task !== prevProps.task) {
+    // componentDidUpdate(prevProps, prevState) {
+    //     if (this.props.task !== prevProps.task) {
+    //         this.setState(this.props.task);
+    //     }
+    // }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps && nextProps.task && !nextProps.isAddNewTask) {
+            this.setState(nextProps.task);
+        } else {
             this.setState({
-                task: this.props.task
+                id: "",
+                name: "",
+                description: "",
+                priority: -1,
+                memberIDArr: [],
+                labelArr: [],
+                status: 1,
             });
         }
     }
 
-    handleChange(event) {
+    onSubmit = (event) => {
+        event.preventDefault();
+        this.props.addNewTask(this.state);
+        this.props.editTask(this.state);
+    }
+
+    onChange = (event) => {
         this.setState({
-            task: {
-                description: event.target.value
-            }
+            [event.target.name]: event.target.value
+        })
+    }
+
+    memberChange = (newMember) => {
+        this.setState({
+            memberIDArr: newMember
+        });
+    }
+
+    labelChange = (newLabel) => {
+        this.setState({
+            labelArr: newLabel
         });
     }
 
     render() {
-        let { task } = this.state;
-        console.log(task);
+        let task = this.state;
         return (
             <div className="modal fade" id="modalTask">
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
-                        {/* Modal Header */}
-                        <div className="modal-header">
-                            <h4 className="modal-title">Thêm công việc</h4>
-                            <button type="button" className="close" data-dismiss="modal">×</button>
-                        </div>
-                        {/* Modal body */}
-                        <div className="modal-body">
-                            <div className="form-group">
-                                <label htmlFor="taskName">Tên công việc:</label>
-                                <input type="text" className="form-control" id="taskName" />
+                        <form onSubmit={this.onSubmit}>
+                            {/* Modal Header */}
+                            <div className="modal-header">
+                                <h4 className="modal-title">{this.props.isAddNewTask ? "Thêm Task" : "Sửa Task"}</h4>
+                                <button type="button" className="close" data-dismiss="modal">×</button>
                             </div>
-                            <div className="form-group">
-                                <label htmlFor="description">Mô tả:</label>
-                                <textarea className="form-control" rows={2} id="description" value={task.description} onChange={this.handleChange} />
+                            {/* Modal body */}
+                            <div className="modal-body">
+                                <div className="form-group">
+                                    <label htmlFor="taskName">Tên công việc:</label>
+                                    <input type="text" className="form-control" id="taskName" name="name" value={task.name} onChange={this.onChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="description">Mô tả:</label>
+                                    <textarea className="form-control" rows={2} id="description" name="description" value={task.description} onChange={this.onChange} />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="priority">Độ ưu tiên:</label>
+                                    <select className="form-control" id="priority" name="priority" value={task.priority} onChange={this.onChange}>
+                                        <option value={-1}>Chọn độ ưu tiên</option>
+                                        <option value={1}>Thấp</option>
+                                        <option value={2}>Trung bình</option>
+                                        <option value={3}>Cao</option>
+                                    </select>
+                                </div>
+                                <label>Người thực hiện:</label>
+                                <br />
+                                <CheckboxGroup name="memberIDArr" checkboxDepth={3} value={this.state.memberIDArr} onChange={this.memberChange}>
+                                    <div className="form-check-inline"><label className="form-check-label"><Checkbox value="user_1" /> Nghĩa Văn</label></div>
+                                    <div className="form-check-inline"><label className="form-check-label"><Checkbox value="user_2" /> Minh Tuấn</label></div>
+                                    <div className="form-check-inline"><label className="form-check-label"><Checkbox value="user_3" /> Trung Hiếu</label></div>
+                                    <div className="form-check-inline"> <label className="form-check-label"><Checkbox value="user_4" /> Tấn Khải</label></div>
+                                </CheckboxGroup>
+                                <br /><br />
+                                <label>Nhãn:</label>
+                                <br />
+                                <CheckboxGroup name="labelArr" checkboxDepth={3} value={this.state.labelArr} onChange={this.labelChange}>
+                                    <div className="form-check-inline"><label className="form-check-label"><Checkbox value="Frontend" /> Frontend</label></div>
+                                    <div className="form-check-inline"> <label className="form-check-label"><Checkbox value="Backend" /> Backend</label></div>
+                                    <div className="form-check-inline"> <label className="form-check-label"><Checkbox value="API" /> API</label></div>
+                                    <div className="form-check-inline"> <label className="form-check-label"><Checkbox value="Issue" /> Issue</label></div>
+                                </CheckboxGroup>
                             </div>
-                            <div className="form-group">
-                                <label htmlFor="priority">Độ ưu tiên:</label>
-                                <select className="form-control" id="priority">
-                                    <option>Thấp</option>
-                                    <option>Trung bình</option>
-                                    <option>Cao</option>
-                                </select>
+                            {/* Modal footer */}
+                            <div className="modal-footer">
+                                <button type="submit" className="btn btn-primary">{this.props.isAddNewTask ? "Thêm Task" : "Sửa Task"}</button>
+                                <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
                             </div>
-                            <label>Người thực hiện:</label>
-                            <br />
-                            <div className="form-check-inline">
-                                <label className="form-check-label">
-                                    <input type="checkbox" className="form-check-input" defaultValue />Nghĩa Văn
-                                </label>
-                            </div>
-                            <div className="form-check-inline">
-                                <label className="form-check-label">
-                                    <input type="checkbox" className="form-check-input" defaultValue />Minh Tuấn
-                                </label>
-                            </div>
-                            <div className="form-check-inline">
-                                <label className="form-check-label">
-                                    <input type="checkbox" className="form-check-input" defaultValue />Trung Hiếu
-                                </label>
-                            </div>
-                            <div className="form-check-inline">
-                                <label className="form-check-label">
-                                    <input type="checkbox" className="form-check-input" defaultValue />Tấn Khải
-                                </label>
-                            </div>
-                            <br /><br />
-                            <label>Nhãn:</label>
-                            <br />
-                            <div className="form-check-inline">
-                                <label className="form-check-label">
-                                    <input type="checkbox" className="form-check-input" defaultValue />Frontend
-                                </label>
-                            </div>
-                            <div className="form-check-inline">
-                                <label className="form-check-label">
-                                    <input type="checkbox" className="form-check-input" defaultValue />Backend
-                                </label>
-                            </div>
-                            <div className="form-check-inline">
-                                <label className="form-check-label">
-                                    <input type="checkbox" className="form-check-input" defaultValue />API
-                                </label>
-                            </div>
-                            <div className="form-check-inline">
-                                <label className="form-check-label">
-                                    <input type="checkbox" className="form-check-input" defaultValue />Issue
-                                </label>
-                            </div>
-                        </div>
-                        {/* Modal footer */}
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
-                        </div>
+
+                        </form>
                     </div>
                 </div>
             </div>
