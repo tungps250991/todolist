@@ -32,15 +32,16 @@ class App extends Component {
     }
   }
 
-  componentWillMount() {
-    // console.log("componentWillMount");
-    // This will deprecate soon
-  }
+  // componentWillMount() {
+  //   // console.log("componentWillMount");
+  //   // This will deprecate soon
+  // }
 
   addNewTask = (task) => {
     if (this.state.isAddNewTask) {
       let jsonTasks = JSON.parse(localStorage.getItem("tasksData"));
       task.id = randomID(5);
+      task.priority = parseInt(task.priority);
       jsonTasks = [...jsonTasks, task];
       this.setState({
         tasks: jsonTasks,
@@ -66,7 +67,7 @@ class App extends Component {
           element.priority = task.priority;
           element.memberIDArr = task.memberIDArr;
           element.labelArr = task.labelArr;
-          element.status = task.status;
+          element.status = parseInt(task.status);
         }
       }
       this.setState({
@@ -83,6 +84,41 @@ class App extends Component {
     });
   }
 
+  editTaskStatus = (task, status) => {
+    let jsonTasks = JSON.parse(localStorage.getItem("tasksData"));
+    for (let element of jsonTasks) {
+      if (element.id === task.id) {
+        element.status = status;
+      }
+    }
+    this.setState({
+      tasks: jsonTasks
+    });
+    localStorage.setItem("tasksData", JSON.stringify(jsonTasks));
+  }
+
+  filterTask = (filterType, filter) => {
+    let jsonTasks = JSON.parse(localStorage.getItem("tasksData"));
+    let filteredJsonTasks = jsonTasks.filter(element => {
+      let expression = false;
+      switch (filterType) {
+        case "status":
+        case "priority":
+          expression = element[filterType] === filter || filter === -1;
+          break;
+        case "label":
+          expression = element.labelArr.includes(filter);
+          break;
+        default:
+          break;
+      }
+      return expression;
+    });
+    this.setState({
+      tasks: filteredJsonTasks
+    });
+  }
+
   render() {
     // console.log("render");
     return (
@@ -91,9 +127,9 @@ class App extends Component {
         <div className="container-fluid">
           <div className="row">
             {/* PANEL */}
-            <Controls initializeTask={this.initializeTask} openAddNewTask={this.openAddNewTask} />
+            <Controls initializeTask={this.initializeTask} openAddNewTask={this.openAddNewTask} filterTask={this.filterTask} />
             {/* DISPLAY */}
-            <TaskList tasksData={this.state.tasks} openEditTask={this.openEditTask} />
+            <TaskList tasksData={this.state.tasks} openEditTask={this.openEditTask} editTaskStatus={this.editTaskStatus} />
           </div>
         </div>
         {/* The Modal */}

@@ -30,6 +30,14 @@ class TaskItemLabels extends Component {
             label: props.label
         };
     }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps && nextProps.label) {
+            this.setState({
+                label: nextProps.label
+            })
+        }
+    }
     
     render() {
         let color = this.colorArr[this.state.label];

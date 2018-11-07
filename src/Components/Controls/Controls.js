@@ -25,9 +25,9 @@ class Controls extends Component {
                 <InitializeTask initializeTask={this.props.initializeTask} />
                 {/* Filter */}
                 <div className="px-3">
-                    <FilterProgress />
-                    <FilterLabel />
-                    <FilterPriority />
+                    <FilterProgress filterTask={this.props.filterTask} />
+                    <FilterLabel filterTask={this.props.filterTask} />
+                    <FilterPriority filterTask={this.props.filterTask} />
                     <Sort />
                 </div>
             </div>

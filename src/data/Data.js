@@ -35,7 +35,7 @@ const TasksData = [
         priority: 3,
         memberIDArr: ["user_2", "user_3", "user_4", "user_5"],
         status: 3,
-        description: "Cuộc thi thử thách tư duy và khả năng coding"
+        description: "Cuộc thi đòi hỏi tư duy và khả năng coding"
     },
 ]
 

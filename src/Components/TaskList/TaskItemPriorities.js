@@ -50,6 +50,14 @@ class TaskItemPriorities extends Component {
         }
     };
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps && nextProps.prior) {
+            this.setState({
+                prior: this.priorClassArr[nextProps.prior]
+            })
+        }
+    }
+
     render() {
         let priorClass = this.state.prior.class;
         let priorText = this.state.prior.text;

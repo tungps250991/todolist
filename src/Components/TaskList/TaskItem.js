@@ -12,7 +12,7 @@ class TaskItem extends Component {
     };
 
     render() {
-        let { task, index } = this.props;
+        let { task, index, editTaskStatus } = this.props;
         let elmTaskItemLabels = task.labelArr.map((label, index) => {
             return <TaskItemLabels
                 label={label}
@@ -40,7 +40,7 @@ class TaskItem extends Component {
                 </td>
                 <td className="text-center d-flex align-items-center justify-content-center">
                     <button type="button" className="btn btn-outline-primary mt-2" data-toggle="modal" data-target="#modalTask" onClick={this.eventModify}>Sửa</button>
-                    <TaskItemStatusSelectBox status={task.status} />
+                    <TaskItemStatusSelectBox status={task.status} task={task} editTaskStatus={editTaskStatus} />
                 </td>
                 <td className="text-center">
                     <TaskItemStatusLabel status={task.status} />

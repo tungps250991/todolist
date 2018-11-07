@@ -8,10 +8,18 @@ class TaskItemStatusLabel extends Component {
         4: "fa-trash-o", // Huy bo
     }
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             status: props.status
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps && nextProps.status) {
+            this.setState({
+                status: nextProps.status
+            })
         }
     }
 

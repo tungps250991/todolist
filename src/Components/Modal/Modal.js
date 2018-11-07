@@ -34,12 +34,26 @@ class Modal extends Component {
             });
         }
         if (nextProps && nextProps.task && !nextProps.isAddNewTask) {
-            this.setState(nextProps.task);
+            this.setState({
+                id: nextProps.task.id,
+                name: nextProps.task.name,
+                description: nextProps.task.description,
+                priority: parseInt(nextProps.task.priority),
+                memberIDArr: nextProps.task.memberIDArr,
+                labelArr: nextProps.task.labelArr,
+                status: parseInt(nextProps.task.status),
+            });
         }
     }
 
+    // static getDerivedStateFromProps(nextProps, nextState){
+    //     if (nextProps && nextProps.task && !nextProps.isAddNewTask) {
+    //         return nextProps.task;
+    //     }
+    // }
+
     onSubmit = (event) => {
-        // event.preventDefault();
+        event.preventDefault();
         this.props.addNewTask(this.state);
         this.props.editTask(this.state);
     }
