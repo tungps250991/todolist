@@ -28,7 +28,7 @@ class Controls extends Component {
                     <FilterProgress filterTask={this.props.filterTask} />
                     <FilterLabel filterTask={this.props.filterTask} />
                     <FilterPriority filterTask={this.props.filterTask} />
-                    <Sort />
+                    <Sort sortTask={this.props.sortTask}/>
                 </div>
             </div>
         );

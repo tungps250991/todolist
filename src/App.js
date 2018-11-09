@@ -64,7 +64,7 @@ class App extends Component {
         if (element.id === task.id) {
           element.name = task.name;
           element.description = task.description;
-          element.priority = task.priority;
+          element.priority = parseInt(task.priority);
           element.memberIDArr = task.memberIDArr;
           element.labelArr = task.labelArr;
           element.status = parseInt(task.status);
@@ -88,7 +88,7 @@ class App extends Component {
     let jsonTasks = JSON.parse(localStorage.getItem("tasksData"));
     for (let element of jsonTasks) {
       if (element.id === task.id) {
-        element.status = status;
+        element.status = parseInt(status);
       }
     }
     this.setState({
@@ -109,6 +109,9 @@ class App extends Component {
         case "label":
           expression = element.labelArr.includes(filter);
           break;
+        case "search":
+          expression = element.name.toLowerCase().includes(filter.toLowerCase());
+          break;
         default:
           break;
       }
@@ -116,6 +119,29 @@ class App extends Component {
     });
     this.setState({
       tasks: filteredJsonTasks
+    });
+  }
+
+  sortTask = sort => {
+    let jsonTasks = JSON.parse(localStorage.getItem("tasksData"));
+    let sortedJsonTasks = [];
+    switch (sort) {
+      case "a-z":
+        sortedJsonTasks = jsonTasks.sort((a, b) => {
+          return (a.name < b.name ? -1 : 1);
+        });
+        break;
+      case "z-a":
+        sortedJsonTasks = jsonTasks.sort((a, b) => {
+          return (a.name < b.name ? 1 : -1);
+        });
+        break;
+      default:
+        sortedJsonTasks = jsonTasks;
+        break;
+    }
+    this.setState({
+      tasks: sortedJsonTasks
     });
   }
 
@@ -127,9 +153,9 @@ class App extends Component {
         <div className="container-fluid">
           <div className="row">
             {/* PANEL */}
-            <Controls initializeTask={this.initializeTask} openAddNewTask={this.openAddNewTask} filterTask={this.filterTask} />
+            <Controls initializeTask={this.initializeTask} openAddNewTask={this.openAddNewTask} filterTask={this.filterTask} sortTask={this.sortTask} />
             {/* DISPLAY */}
-            <TaskList tasksData={this.state.tasks} openEditTask={this.openEditTask} editTaskStatus={this.editTaskStatus} />
+            <TaskList tasksData={this.state.tasks} openEditTask={this.openEditTask} editTaskStatus={this.editTaskStatus} filterTask={this.filterTask} />
           </div>
         </div>
         {/* The Modal */}

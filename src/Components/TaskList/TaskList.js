@@ -3,6 +3,21 @@ import React, { Component } from 'react';
 import TaskItem from './TaskItem';
 
 class TaskList extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            searchStr: ''
+        }
+    }
+
+    handleSearch = event => {
+        this.setState({
+            searchStr: event.target.value
+        }, () => {
+            this.props.filterTask('search', this.state.searchStr);
+        });
+    }
+
     render() {
         let { tasksData, openEditTask, editTaskStatus } = this.props;
         let elmTaskItemms = tasksData.map((task, index) => {
@@ -25,7 +40,7 @@ class TaskList extends Component {
                         </div>
                         <div className="col-md-6">
                             <div className="form-group text-left my-0">
-                                <input type="text" className="form-control" placeholder="Tìm kiếm công việc" />
+                                <input type="text" className="form-control" placeholder="Tìm kiếm công việc" onChange={this.handleSearch} />
                             </div>
                         </div>
                     </div>
